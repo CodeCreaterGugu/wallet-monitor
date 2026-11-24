@@ -6,6 +6,14 @@
 
 ---
 
+## Screenshots
+
+| | |
+|---|---|
+| ![screenshot 1](docs/images/screenshots/01.png) | ![screenshot 2](docs/images/screenshots/02.png) |
+| ![screenshot 3](docs/images/screenshots/03.png) | ![screenshot 4](docs/images/screenshots/04.png) |
+| ![screenshot 5](docs/images/screenshots/05.png) | ![screenshot 6](docs/images/screenshots/06.png) |
+
 ## What it is
 
 A Control UI plugin for [OpenClaw](https://github.com/openclaw/openclaw). It puts a small animated character in the corner of your screen:
