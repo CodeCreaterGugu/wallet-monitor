@@ -1,0 +1,803 @@
+/* ---------- 仪表盘卡片 ---------- */
+.wm-card {
+  padding: 12px;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  color: inherit;
+}
+.wm-title {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  opacity: 0.85;
+}
+.wm-body {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 2px 0;
+  line-height: 1.2;
+}
+.wm-body.wm-warn {
+  color: #d97706;
+}
+.wm-body.wm-critical {
+  color: #dc2626;
+}
+.wm-body.wm-error {
+  color: #dc2626;
+  font-size: 13px;
+  font-weight: 400;
+}
+.wm-meta {
+  font-size: 12px;
+  opacity: 0.6;
+  margin: 4px 0;
+}
+.wm-btn {
+  margin-top: 6px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* ---------- 会话头部胶囊 ---------- */
+.wm-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 9px;
+  margin: 0 2px;
+  border: 1px solid rgba(127, 127, 127, 0.32);
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font-size: 12px;
+  line-height: 1.45;
+  white-space: nowrap;
+  user-select: none;
+}
+.wm-chip:hover {
+  background: rgba(127, 127, 127, 0.1);
+}
+
+/* 两个可点击区：外观像普通文字，点下去才像按钮 */
+.wm-chip-seg {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  line-height: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+  border-radius: 999px;
+}
+.wm-chip-seg:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+.wm-chip-seg:hover {
+  opacity: 0.75;
+}
+
+.wm-brand {
+  opacity: 0.7;
+  font-weight: 500;
+}
+.wm-dot {
+  font-size: 9px;
+  line-height: 1;
+  margin-right: 2px;
+  vertical-align: 1px;
+}
+.wm-dot[data-level="ok"] {
+  color: #16a34a;
+}
+.wm-dot[data-level="warn"] {
+  color: #d97706;
+}
+.wm-dot[data-level="critical"] {
+  color: #dc2626;
+}
+.wm-amount {
+  font-weight: 700;
+}
+.wm-sep {
+  opacity: 0.4;
+}
+.wm-chip-alt {
+  opacity: 0.85;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 窄屏自动隐藏品牌名，优先保住数字 */
+@media (max-width: 820px) {
+  .wm-brand {
+    display: none;
+  }
+}
+
+/* ---------- 螃蟹娘悬浮角色 ---------- */
+.wm-crab {
+  position: fixed;
+  z-index: 2147483000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  pointer-events: none;
+}
+/* 角色在屏幕左半边时，气泡改为向右延伸，避免被屏幕边缘挤扁 */
+.wm-crab.wm-on-left {
+  align-items: flex-start;
+}
+.wm-crab.wm-on-left .wm-crab-bubble {
+  right: auto;
+  left: 0;
+}
+.wm-crab.wm-on-left .wm-crab-bubble::after {
+  right: auto;
+  left: 22px;
+}
+.wm-crab > * {
+  pointer-events: auto;
+}
+.wm-crab-body {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  cursor: grab;
+  line-height: 0;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.22));
+  touch-action: none;
+}
+.wm-crab-body:active {
+  cursor: grabbing;
+}
+@keyframes wm-crab-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.wm-crab-bubble {
+  /* 绝对定位：弹出时不再撑大容器，避免角色被左侧挤出去 */
+  position: absolute;
+  bottom: calc(100% + 8px);
+  right: 0;
+  max-width: min(340px, calc(100vw - 28px));
+  min-width: 280px;
+  word-break: break-word;
+  padding: 10px 12px;
+  border-radius: 16px;
+  /* 白底 + 橙色描边（仿气泡图标质感） */
+  background: #fffdf8;
+  border: 3px solid #f97316;
+  color: #27272a;
+  font-size: 12.5px;
+  line-height: 1.55;
+  box-shadow:
+    0 0 0 4px rgba(249, 115, 22, 0.16),
+    0 10px 26px rgba(249, 115, 22, 0.26);
+}
+.wm-crab-bubble::after {
+  content: "";
+  position: absolute;
+  right: 22px;
+  bottom: -8px;
+  width: 14px;
+  height: 14px;
+  background: #fffdf8;
+  border-right: 3px solid #f97316;
+  border-bottom: 3px solid #f97316;
+  transform: rotate(45deg);
+  border-radius: 2px;
+}
+.wm-crab-text {
+  white-space: pre-line;
+  word-break: break-word;
+}
+.wm-crab-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 7px;
+}
+.wm-crab-btn {
+  font-size: 11.5px;
+  line-height: 1.5;
+  padding: 2px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+  color: inherit;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.wm-crab-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* 立绘图片 */
+.wm-crab-body {
+  perspective: 900px;
+}
+.wm-crab-img {
+  height: auto;
+  width: auto;
+  max-width: 240px;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+  transform-origin: 50% 100%;
+  animation: wm-breathe 4.2s ease-in-out infinite;
+  transition:
+    transform 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.45s ease;
+}
+
+/* 隐藏后的角落恢复角标 */
+.wm-crab-badge {
+  position: fixed;
+  right: 8px;
+  bottom: 8px;
+  z-index: 2147483000;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(127, 127, 127, 0.35);
+  background: rgba(24, 24, 27, 0.78);
+  color: #fff;
+  font-size: 17px;
+  line-height: 1;
+  cursor: pointer;
+}
+.wm-crab-badge:hover {
+  background: rgba(24, 24, 27, 0.95);
+}
+
+/* 右键菜单 */
+.wm-crab-menu {
+  position: fixed;
+  z-index: 2147483600;
+  /* 宽固定：避免每次重建时宽度变化 → clampMenu 把面板往左推（看起来像左晃） */
+  width: 220px;
+  min-width: 220px;
+  box-sizing: border-box;
+  padding: 5px;
+  border-radius: 10px;
+  border: 1px solid rgba(127, 127, 127, 0.3);
+  background: rgba(24, 24, 27, 0.96);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.32);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.wm-crab-menu[hidden] {
+  display: none;
+}
+.wm-crab-menu button {
+  text-align: left;
+  padding: 6px 9px;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #f3f4f6;
+  font-size: 12.5px;
+  line-height: 1.4;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.wm-crab-menu button:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* ---------- 摸头 / 头晕 小动作 ---------- */
+.wm-crab-pat {
+  animation: wm-pat 0.9s ease;
+}
+@keyframes wm-pat {
+  0%, 100% { transform: scale(1); }
+  45% { transform: scale(1.08); }
+}
+/* 眩晕摇摆：绕身体中心小角度旋转，头部几乎不位移，允许溢出屏幕 */
+.wm-crab-dizzy .wm-crab-body {
+  animation: wm-dizzy 0.55s ease-in-out 2;
+  transform-origin: 50% 55%;
+}
+@keyframes wm-dizzy {
+  0%, 100% { transform: rotate(0deg); }
+  25%      { transform: rotate(-4.5deg); }
+  75%      { transform: rotate(4.5deg); }
+}
+/* ---------- 看余额的小气泡按钮 ---------- */
+.wm-crab-talk {
+  position: absolute;
+  /* 图标垂直位置：越小越靠上（--wm-talk-top） */
+  top: var(--wm-talk-top, 4%);
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.2));
+  transition: transform 0.15s ease;
+  line-height: 0;
+  /* 默认：气泡挂在人物左侧，距身体约一个头宽 --wm-talk-gap */
+  left: calc(-1 * var(--wm-talk-gap, 44px));
+  right: auto;
+}
+.wm-crab-talk img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+  transition: transform 0.2s ease;
+}
+/* 余额面板展开时，隐藏气泡按钮，避免挡住文字 */
+.wm-crab:has(> .wm-crab-bubble:not([hidden])) > .wm-crab-talk {
+  display: none;
+}
+/* 人物被拖到屏幕左半边：气泡翻到人物右侧，图标同步水平镜像 */
+.wm-crab-talk.wm-side-right {
+  left: auto;
+  right: calc(-1 * var(--wm-talk-gap, 44px));
+}
+.wm-crab-talk.wm-side-right img {
+  transform: scaleX(-1);
+}
+.wm-crab-talk:hover {
+  transform: scale(1.12);
+}
+/* ---------- 面板内设置输入行（替代 window.prompt） ---------- */
+.wm-crab-ask {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  font-size: 13px;
+  color: #e5e5e5;
+  white-space: nowrap;
+}
+.wm-crab-input {
+  width: 62px;
+  padding: 3px 6px;
+  border-radius: 6px;
+  border: 1px solid rgba(127, 127, 127, 0.45);
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  font-size: 13px;
+  outline: none;
+}
+.wm-crab-input:focus {
+  border-color: #f97316;
+}
+.wm-crab-ok {
+  padding: 3px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(249, 115, 22, 0.7);
+  background: rgba(249, 115, 22, 0.18);
+  color: #fdba74;
+  font-size: 13px;
+  cursor: pointer;
+}
+.wm-crab-ok:hover {
+  background: rgba(249, 115, 22, 0.32);
+}
+/* breathing: pure CSS, subtle vertical scale from the feet */
+@keyframes wm-breathe {
+  0%, 100% { scale: 1 1; }
+  50%      { scale: 1 1.022; }
+}
+
+/* turn-around: instant sprite swap then a 180-degree flip, used for the angry reaction */
+@keyframes wm-turn {
+  from { transform: rotateY(-180deg); }
+  to   { transform: rotateY(0deg); }
+}
+.wm-crab-img.wm-turn {
+  animation: wm-turn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards,
+             wm-breathe 4.2s ease-in-out infinite;
+  backface-visibility: visible;
+}
+
+/* D7: 控制面板行 */
+.wm-crab-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 5px 8px;
+  font-size: 12.5px;
+  color: #e5e5e5;
+  white-space: nowrap;
+}
+.wm-crab-sw {
+  min-width: 40px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  border: 1px solid rgba(127, 127, 127, 0.45);
+  background: rgba(255, 255, 255, 0.08);
+  color: #a1a1aa;
+  font-size: 12px;
+  cursor: pointer;
+}
+.wm-crab-sw.on {
+  border-color: rgba(34, 197, 94, 0.7);
+  background: rgba(34, 197, 94, 0.22);
+  color: #86efac;
+}
+.wm-crab-hide {
+  margin: 4px 8px 6px;
+  padding: 5px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(127, 127, 127, 0.35);
+  background: rgba(255, 255, 255, 0.06);
+  color: #e5e5e5;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+.wm-crab-hide:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+/* 装扮切换按钮（蓝底） */
+.wm-crab-sw.turn {
+  min-width: 48px;
+  border-color: rgba(59, 130, 246, 0.75);
+  background: rgba(59, 130, 246, 0.28);
+  color: #bfdbfe;
+}
+/* 面板行内的控件不被挤压 */
+.wm-crab-row .wm-crab-sw,
+.wm-crab-row .wm-crab-ok {
+  flex: 0 0 auto;
+}
+.wm-crab-row .wm-crab-input {
+  flex: 0 1 78px;
+  min-width: 56px;
+}
+
+/* 面板底部保存按钮 + 成功提示 */
+.wm-crab-unit {
+  flex: 0 0 auto;
+  font-size: 12px;
+  color: #a1a1aa;
+}
+.wm-crab-save {
+  display: block;
+  margin: 8px auto 2px;
+  padding: 5px 22px;
+  border-radius: 8px;
+  border: 1px solid rgba(34, 197, 94, 0.7);
+  background: rgba(34, 197, 94, 0.22);
+  color: #86efac;
+  font-size: 13px;
+  cursor: pointer;
+}
+.wm-crab-save:hover {
+  background: rgba(34, 197, 94, 0.34);
+}
+.wm-crab-okhint {
+  margin: 2px 0 6px;
+  text-align: center;
+  font-size: 11.5px;
+  color: #4ade80;
+}
+
+/* 音量滑条 + 版本号 */
+.wm-crab-range {
+  flex: 0 1 110px;
+  height: 16px;
+  accent-color: #22c55e;
+  cursor: pointer;
+}
+.wm-crab-ver {
+  margin: 6px 0 2px;
+  text-align: right;
+  font-size: 10.5px;
+  color: #71717a;
+}
+
+/* 音效关闭时音量条灰掉 */
+.wm-crab-range:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.wm-crab-row.dim {
+  opacity: 0.55;
+}
+
+/* 面板大字余额 */
+.wm-crab-big {
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: 0.5px;
+  color: #c2410c;
+  margin: 2px 0 6px;
+}
+/* 面板其它数据：黑色小字 */
+.wm-crab-text {
+  color: #3f3f46;
+}
+/* 浅底上的操作按钮 */
+.wm-crab-btn {
+  background: rgba(249, 115, 22, 0.12);
+  border: 1px solid rgba(249, 115, 22, 0.45);
+  color: #9a3412;
+}
+.wm-crab-btn:hover {
+  background: rgba(249, 115, 22, 0.22);
+}
+
+/* 大字行的「余额」标签：比小字大、比数字小 */
+.wm-crab-big-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: #9a3412;
+  margin-right: 6px;
+  vertical-align: 4px;
+}
+.wm-crab-big-num {
+  font-size: 30px;
+  font-weight: 800;
+  color: #c2410c;
+  letter-spacing: 0.5px;
+}
+
+/* 交叉溶解：旧图叠在新图上方淡出 */
+.wm-crab-body {
+  position: relative;
+}
+.wm-crab-ghost {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0 auto;      /* 水平居中，不占用 transform */
+  height: 100%;
+  width: auto;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 交叉溶解关键帧（比 transition 更可靠） */
+@keyframes wm-xfade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes wm-xfade-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+.wm-crab-img.wm-xfade-in {
+  animation: wm-xfade-in 0.25s ease,
+             wm-breathe 4.2s ease-in-out infinite;
+}
+.wm-crab-ghost.wm-xfade-out {
+  animation: wm-xfade-out 0.25s ease forwards;
+}
+/* 换装：新图从上往下长出，边界用渐变遮罩做羽化（不硬边） */
+@property --wm-wipe {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 0%;
+}
+@keyframes wm-wipe-var {
+  from { --wm-wipe: 0%; }
+  to   { --wm-wipe: 110%; }
+}
+.wm-crab-img.wm-wipe-in {
+  /* 上方透明（已擦掉）、下方不透明（还留着），配合 --wm-wipe 往下扫 */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) calc(var(--wm-wipe) - 12%),
+    #000 var(--wm-wipe)
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) calc(var(--wm-wipe) - 12%),
+    #000 var(--wm-wipe)
+  );
+  animation: wm-wipe-var 1s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+}
+
+/* 换装被禁用时的红色提示 */
+.wm-crab-warn {
+  margin: 2px 8px 6px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: #ef4444;
+}
+.wm-crab-sw.disabled,
+.wm-crab-sw:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* 专注模式：拖动透明度 / 悬停装扮时，其余内容渐隐 */
+.wm-crab-menu > * {
+  transition: opacity 0.25s ease;
+}
+.wm-crab-menu.focus-opacity > *:not(.wm-row-opacity),
+.wm-crab-menu.focus-skin > *:not(.wm-row-skin) {
+  opacity: 0;
+  pointer-events: none;
+}
+/* 保留元素始终可交互 */
+.wm-crab-menu.focus-skin > .wm-row-skin {
+  pointer-events: auto;
+  opacity: 1;
+}
+/* 专注时连面板底色/边框/阴影一起淡出 */
+.wm-crab-menu.focus-opacity,
+.wm-crab-menu.focus-skin {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+/* 被聚焦的那一行自带深色底，保证可读 */
+.wm-crab-menu.focus-opacity .wm-row-opacity,
+.wm-crab-menu.focus-skin .wm-row-skin {
+  background: rgba(0, 0, 0, 0.72);
+  border-radius: 8px;
+  padding: 4px 6px;
+}
+/* 装扮名字：带小黑底，保证在画面上看得清 */
+.wm-crab-skin-label {
+  /* 去掉小黑底：这一行本身常驻可见，不需要额外底色 */
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+
+/* 装扮缩略图条 */
+.wm-crab-skins {
+  display: flex;
+  gap: 6px;
+  padding: 2px 8px 6px;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  cursor: grab;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.wm-crab-skins::-webkit-scrollbar {
+  display: none;
+}
+.wm-crab-skins.dragging {
+  cursor: grabbing;
+}
+.wm-crab-skins > .wm-skin-cell {
+  flex: 0 0 auto;
+}
+.wm-skin-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 3px 4px 2px;
+  border-radius: 8px;
+  border: 1px solid rgba(127, 127, 127, 0.35);
+  background: rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.wm-skin-cell img {
+  height: 38px;
+  width: auto;
+  display: block;
+  pointer-events: none;
+}
+.wm-skin-cell span {
+  font-size: 10.5px;
+  color: #d4d4d8;
+}
+.wm-skin-cell:hover {
+  border-color: rgba(249, 115, 22, 0.6);
+}
+.wm-skin-cell.on {
+  border-color: #f97316;
+  background: rgba(249, 115, 22, 0.18);
+}
+.wm-skin-cell.disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* 换装：旧图下滑消失 + 新图从上滑入（用 translate 属性，不与镜像/呼吸冲突） */
+@keyframes wm-slide-in {
+  from { transform: translateY(-32%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+.wm-crab-img.wm-slide-in {
+  animation: wm-slide-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) both,
+             wm-breathe 4.2s ease-in-out infinite;
+}
+
+/* A16: 近 14 天消耗热力图 */
+.wm-crab-heat {
+  display: flex;
+  gap: 3px;
+  margin: 6px 0 4px;
+}
+/* 关键：hidden 属性必须真的隐藏（否则被 display:flex 覆盖） */
+.wm-crab-heat[hidden] {
+  display: none !important;
+}
+.wm-crab-heat i {
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+  display: block;
+  background: #e7e5e4;
+}
+.wm-crab-heat i[data-level="1"] { background: #fed7aa; }
+.wm-crab-heat i[data-level="2"] { background: #fdba74; }
+.wm-crab-heat i[data-level="3"] { background: #fb923c; }
+.wm-crab-heat i[data-level="4"] { background: #ea580c; }
+
+/* B13: 贴边收起（悬停恢复） */
+.wm-crab {
+  transition: translate 0.3s ease;
+}
+.wm-crab.wm-edge-left:not(.wm-expanded) {
+  translate: -30% 0;
+}
+.wm-crab.wm-edge-right:not(.wm-expanded) {
+  translate: 30% 0;
+}
+/* 贴边且未展开时隐藏余额按钮；展开后重新出现 */
+.wm-crab.wm-edge-left:not(.wm-expanded) .wm-crab-talk,
+.wm-crab.wm-edge-right:not(.wm-expanded) .wm-crab-talk {
+  display: none;
+}
+/* H5: 恢复默认按钮 */
+.wm-crab-reset {
+  display: block;
+  margin: 6px auto 0;
+  padding: 4px 14px;
+  border-radius: 8px;
+  border: 1px solid rgba(239, 68, 68, 0.55);
+  background: rgba(239, 68, 68, 0.12);
+  color: #fca5a5;
+  font-size: 12px;
+  cursor: pointer;
+}
+.wm-crab-reset:hover {
+  background: rgba(239, 68, 68, 0.24);
+}
+
+/* drag sway: subtle wobble while the crab is being dragged */
+.wm-crab.wm-dragging-sway {
+  animation: wm-drag-sway 1.5s ease-in-out infinite;
+  transform-origin: 50% 30%;
+}
+@keyframes wm-drag-sway {
+  0%, 100% { rotate: -2deg; }
+  50%      { rotate: 2deg; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wm-crab.wm-dragging-sway { animation: none; }
+}
+
+/* debug HUD: enable with localStorage.setItem("wm-debug","1") */
+.wm-debug-hud {
+  position: fixed;
+  left: 8px;
+  bottom: 8px;
+  z-index: 2147483647;
+  padding: 5px 8px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.78);
+  color: #7cf37c;
+  font: 11px/1.45 ui-monospace, Consolas, monospace;
+  white-space: pre;
+  pointer-events: none;
+}

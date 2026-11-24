@@ -1,0 +1,23 @@
+{
+  "id": "wallet-monitor",
+  "name": "Wallet Monitor",
+  "description": "在 Control UI 仪表盘显示 DeepSeek 账户余额",
+  "version": "0.1.0",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {}
+  },
+  "activation": {
+    "onStartup": true
+  },
+  "controlUi": {
+    "entry": "dist/control-ui/74652fa51f51841f454b0f271115b3da0a3b818a095118e9c0bcdfecc9f96c2d/index.js",
+    "styles": [
+      "dist/control-ui/74652fa51f51841f454b0f271115b3da0a3b818a095118e9c0bcdfecc9f96c2d/index.css"
+    ]
+  },
+  "contracts": {
+    "tools": []
+  }
+}
